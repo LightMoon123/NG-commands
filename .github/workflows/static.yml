@@ -1,0 +1,253 @@
+import React, { useState } from 'react';
+import { Copy, Check, Home } from 'lucide-react';
+
+export default function NGCommands() {
+  const [copiedIndex, setCopiedIndex] = useState(null);
+
+  const copyToClipboard = (text, index) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const CommandCard = ({ command, index }) => (
+    <div className="bg-gradient-to-r from-gray-800 to-gray-750 rounded-lg p-4 mb-3 flex items-start justify-between hover:from-gray-750 hover:to-gray-700 transition-all duration-200 shadow-lg border border-gray-700 hover:border-blue-500/50">
+      <div className="flex-1 font-mono text-sm text-gray-100 break-words pr-4">
+        {command}
+      </div>
+      <button
+        onClick={() => copyToClipboard(command, index)}
+        className="flex-shrink-0 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-lg transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-blue-500/50 hover:scale-105"
+      >
+        {copiedIndex === index ? (
+          <>
+            <Check size={16} className="animate-pulse" />
+            <span className="text-sm font-semibold">Copied</span>
+          </>
+        ) : (
+          <>
+            <Copy size={16} />
+            <span className="text-sm font-semibold">Copy</span>
+          </>
+        )}
+      </button>
+    </div>
+  );
+
+  const Section = ({ title, commands, emoji = '' }) => (
+    <div className="mb-10">
+      <h2 className="text-2xl font-bold text-white mb-5 flex items-center gap-3 pb-2 border-b-2 border-blue-600/30">
+        {emoji && <span className="text-3xl">{emoji}</span>}
+        <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">{title}</span>
+      </h2>
+      <div className="space-y-3 mt-5">
+        {commands.map((cmd, idx) => (
+          <CommandCard key={idx} command={cmd} index={`${title}-${idx}`} />
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <div className="max-w-5xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12 bg-gray-800/50 rounded-2xl p-8 border border-gray-700 shadow-2xl backdrop-blur-sm">
+          <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+            NG BODYCAM COMMANDS
+          </h1>
+          <p className="text-gray-400 text-lg">Click any command to copy it instantly 📋</p>
+        </div>
+
+        {/* Bodycam Commands */}
+        <Section
+          title="Attaching Bodycam (Uniform)"
+          commands={[
+            "/me Takes out bodycam, attaches it to chest, checks its ballistic, water proof",
+            "/me makes sure it is recording and checks for the red light",
+            "/do It is recording, is ballistic and water proof",
+            "/me connects PDA to the nearest cell tower"
+          ]}
+        />
+
+        <Section
+          title="Refreshing Bodycam"
+          commands={[
+            "/me refreshing bodycam",
+            "/do It is recording"
+          ]}
+        />
+
+        <Section
+          title="Saving Bodycam"
+          commands={[
+            "/me saves bodycam, uploads it to the NG Cloud and continues recording",
+            "/do It is recording"
+          ]}
+        />
+
+        <Section
+          title="Handing Footage to the Lawyer"
+          commands={[
+            "/me saves bodycam contents onto an SD card and uploads contents to NG servers",
+            "/me Takes SD card out of the bodycam and hands it to the lawyer"
+          ]}
+        />
+
+        <Section
+          title="Finishing Your Shift"
+          commands={[
+            "/me saves bodycam contents onto an SD card and uploads contents to NG servers",
+            "/me puts the badge in the locker"
+          ]}
+        />
+
+        <Section
+          title="Searching a Trunk"
+          commands={[
+            "/me carefully inspects the trunk and uses a crowbar to attempt opening it",
+            "/me applies pressure with the crowbar to force the trunk open"
+          ]}
+        />
+
+        {/* Department Messages */}
+        <div className="mt-16 mb-10">
+          <h2 className="text-4xl font-bold text-white text-center bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+            Department Messages
+          </h2>
+          <div className="h-1 w-32 bg-gradient-to-r from-blue-600 to-blue-400 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <Section
+          title="General Calls"
+          emoji="📢"
+          commands={[
+            "NG to XXX: How copy?",
+            "NG to XXX: 10-4, thank you!",
+            "NG to XXX: 10-4, much appreciated!",
+            "NG to XXX: Soldiers en route!",
+            "NG to XXX: Good copy, send traffic!",
+            "NG to XXX: Bad copy, we're currently in a situation!",
+            "NG to LSPD/SAHP/FIB: We have a 10-15 at MB, can you send a unit?",
+            "NG to LSPD/SAHP/FIB: We have multiple 10-15s at MB, can you send units?"
+          ]}
+        />
+
+        <Section
+          title="Global Related"
+          emoji="⚠️"
+          commands={[
+            "NG to GLOBAL: What's the situation?",
+            "NG to ALL: Global is for heavy 10-10s, send all available units!",
+            "NG to ALL: Global is for FZ Raid, send all available units!",
+            "NG to ALL: Soldiers are getting robbed at global, send all available units!",
+            "NG to ALL: Global is for a hood watch, send all available units!",
+            "NG to ALL: Global is for a checkpoint, everyone is invited!",
+            "NG to ALL: Be on standby for a possible hostage situation!",
+            "NG to ALL: Be on standby for possible FZ Raid!",
+            "NG to ALL: The Global is 10-99.",
+            "NG to ALL: We are getting raided, please dispatch max units."
+          ]}
+        />
+
+        <Section
+          title="Government Related"
+          emoji="🏦"
+          commands={[
+            "NG to GOV: How copy?",
+            "NG to GOV: Good copy, send traffic!",
+            "NG to GOV: Bad copy!",
+            "NG to GOV: Bad copy, we're currently in a situation!",
+            "NG to GOV: Soldiers en route!",
+            "NG to GOV: Can we have a quick meeting at the Capitol?",
+            "NG to GOV: Requesting permission to land on your lawn.",
+            "NG to GOV: We have one of your units in custody, could you 10-17 to DOC?",
+            "NG to GOV: 10-4, waiting for your arrival!",
+            "NG to GOV: 10-4, much appreciated!"
+          ]}
+        />
+
+        <Section
+          title="FIB Related"
+          emoji="🕵️"
+          commands={[
+            "NG to FIB: How copy?",
+            "NG to FIB: Good copy, send traffic!",
+            "NG to FIB: Bad copy!",
+            "NG to FIB: Bad copy, we're currently in a situation!",
+            "NG to FIB: Can we have a quick meeting at your HQ?",
+            "NG to FIB: Can we have a quick meeting at MB?",
+            "NG to FIB: Requesting permission to land at your HQ.",
+            "NG to FIB: We have one of your federals in custody, could you 10-17 to DOC?",
+            "NG to FIB: We're currently en route!",
+            "NG to FIB: 10-4, waiting for your arrival!",
+            "NG to FIB: 10-4, much appreciated!",
+            "NG to FIB: Permission granted!"
+          ]}
+        />
+
+        <Section
+          title="LSPD Related"
+          emoji="🚔"
+          commands={[
+            "NG to LSPD: How copy?",
+            "NG to LSPD: Good copy, send traffic!",
+            "NG to LSPD: Bad copy!",
+            "NG to LSPD: Bad copy, we're currently in a situation!",
+            "NG to LSPD: Can we have a quick meeting at your HQ?",
+            "NG to LSPD: Can we have a quick meeting at MB?",
+            "NG to LSPD: Requesting permission to land at your HQ.",
+            "NG to LSPD: We have one of your officers in custody, could you 10-17 to DOC?",
+            "NG to LSPD: We're currently en route!",
+            "NG to LSPD: 10-4, waiting for your arrival!",
+            "NG to LSPD: 10-4, much appreciated!",
+            "NG to LSPD: Permission granted!"
+          ]}
+        />
+
+        <Section
+          title="EMS Related"
+          emoji="🚑"
+          commands={[
+            "NG to EMS: How copy?",
+            "NG to EMS: Good copy, send traffic!",
+            "NG to EMS: Bad copy!",
+            "NG to EMS: Bad copy, we're currently in a situation!",
+            "NG to EMS: Ghetto is off-limits for the next 25 minutes, please inform all your units.",
+            "NG to EMS: Can we have a quick meeting at Pillbox Hospital?",
+            "NG to EMS: Requesting permission to land at your helipad.",
+            "NG to EMS: We have one of your employees in custody, could you 10-17 to DOC?",
+            "NG to EMS: We're currently en route!",
+            "NG to EMS: Clean!",
+            "NG to EMS: 10-4, much appreciated!",
+            "NG to EMS: Permission granted!"
+          ]}
+        />
+
+        <Section
+          title="SAHP Related"
+          emoji="🚔"
+          commands={[
+            "NG to SAHP: How copy?",
+            "NG to SAHP: Good copy, send traffic!",
+            "NG to SAHP: Bad copy!",
+            "NG to SAHP: Bad copy, we're currently in a situation!",
+            "NG to SAHP: Can we have a quick meeting at your HQ?",
+            "NG to SAHP: Can we have a quick meeting at MB?",
+            "NG to SAHP: Requesting permission to land at your HQ.",
+            "NG to SAHP: We have one of your officers in custody, could you 10-17 to DOC?",
+            "NG to SAHP: We're currently en route!",
+            "NG to SAHP: 10-4, waiting for your arrival!",
+            "NG to SAHP: 10-4, much appreciated!",
+            "NG to SAHP: Permission granted!"
+          ]}
+        />
+
+        {/* Footer */}
+        <div className="text-center mt-16 pt-8 border-t border-gray-700/50">
+          <p className="text-gray-500 text-sm">Professional RP Commands Hub</p>
+        </div>
+      </div>
+    </div>
+  );
+}
